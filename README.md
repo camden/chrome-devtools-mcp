@@ -467,6 +467,39 @@ To get the WebSocket endpoint from a running Chrome instance, visit `http://127.
 
 You can also run `npx chrome-devtools-mcp@latest --help` to see all available configuration options.
 
+### Network isolation
+
+The Chrome DevTools MCP server enforces network isolation to restrict which hosts the launched Chrome instance can access. This is controlled via the `CHROME_DEVTOOLS_ALLOWED_HOSTS` environment variable.
+
+**Important:** Network isolation is always enabled. If `CHROME_DEVTOOLS_ALLOWED_HOSTS` is not set, Chrome will not be able to access any network hosts.
+
+#### Configuration
+
+Set the environment variable to a comma-separated list of allowed host patterns:
+
+```json
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["chrome-devtools-mcp@latest"],
+      "env": {
+        "CHROME_DEVTOOLS_ALLOWED_HOSTS": "localhost,127.0.0.1,example.com"
+      }
+    }
+  }
+}
+```
+
+#### Supported patterns
+
+- `example.com` - Allows exactly example.com
+- `*.example.com` - Allows any subdomain of example.com (but not example.com itself)
+- `localhost` - Allows localhost (must be explicitly listed)
+
+> [!NOTE]
+> When using `--browserUrl`, `--wsEndpoint`, or `--autoConnect` to connect to an existing browser, network isolation cannot be enforced by the MCP server. Ensure the connected browser was launched with appropriate restrictions.
+
 ## Concepts
 
 ### User data directory

@@ -11,10 +11,7 @@ import process from 'node:process';
 import type {Channel} from './browser.js';
 import {ensureBrowserConnected, ensureBrowserLaunched} from './browser.js';
 import {parseArguments} from './cli.js';
-import {
-  getNetworkIsolationArgs,
-  ENV_VAR_NAME as NETWORK_ISOLATION_ENV_VAR,
-} from './network-isolation.js';
+import {getNetworkIsolationArgs} from './network-isolation.js';
 import {loadIssueDescriptions} from './issue-descriptions.js';
 import {logger, saveLogsToFile} from './logger.js';
 import {McpContext} from './McpContext.js';
@@ -69,7 +66,6 @@ async function getContext(): Promise<McpContext> {
     // Network isolation cannot be enforced when connecting to an existing browser
     logger(
       `WARNING: Network isolation cannot be enforced when connecting to an existing browser. ` +
-        `The ${NETWORK_ISOLATION_ENV_VAR} environment variable is ignored in connect mode. ` +
         `Ensure the connected browser was launched with appropriate network restrictions.`,
     );
   } else {
